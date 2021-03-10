@@ -5,6 +5,10 @@ const express = require("express");
 const morgan = require("morgan");
 const db = require("./models/index");
 
+// import routes
+const userRoutes = require("./routes/user");
+const courseRoutes = require("./routes/course");
+
 // variable to enable global error logging
 const enableGlobalErrorLogging =
   process.env.ENABLE_GLOBAL_ERROR_LOGGING === "true";
@@ -30,6 +34,12 @@ app.get("/", (req, res) => {
     message: "Welcome to the REST API project!",
   });
 });
+
+// user routes
+app.use("/api", userRoutes);
+
+// course routes
+app.use("/api", courseRoutes);
 
 // send 404 if no other route matched
 app.use((req, res) => {
