@@ -20,10 +20,10 @@ const app = express();
 db.sequelize
   .authenticate()
   .then(() => console.log("Connection to the database successful!"))
-  .catch((err) => console.log("Couldn't connect to the database:\n", err));
-// .then(() => db.sequelize.sync())
-// .then(() => console.log("Sync successfull!"))
-// .catch((err) => console.log("Couldn't sync the database:\n", err));
+  .catch((err) => console.log("Couldn't connect to the database:\n", err))
+  .then(() => db.sequelize.sync())
+  .then(() => console.log("Sync successfull!"))
+  .catch((err) => console.log("Couldn't sync the database:\n", err));
 
 // setup morgan which gives us http request logging
 app.use(morgan("dev"));
