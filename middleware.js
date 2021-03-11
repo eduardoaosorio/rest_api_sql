@@ -2,9 +2,28 @@
 
 const auth = require("basic-auth");
 const bcrypt = require("bcrypt");
-const { User } = require("./models");
+const { User, Course } = require("./models");
 
-// Middleware to authenticate the request using Basic Authentication
+// middleware function to check if a course exists
+const checkCourseExistance = async (req, res, next) => {
+  try {
+    const course = await Course.findByPk(req.params.id);
+    if (course) {
+      req.course = course;
+      next();
+    } else {
+      const course404 = new Error(
+        "Course not found, id doesn't match any existing course"
+      );
+      course404.status = 404;
+      next(course404);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+// middleware function to authenticate the request using Basic Authentication
 const authenticateUser = async (req, res, next) => {
   try {
     let message; // store the message to display in case of failure
@@ -46,6 +65,23 @@ const authenticateUser = async (req, res, next) => {
   }
 };
 
+// middleware function to check if whoever is requesting to update or delete a course is actually the owner
+const verifyOwner = async (req, res, next) => {
+  try {
+    if (req.user.id === req.course.userId) {
+      next();
+    } else {
+      const forbidden403 = new Error(
+        "Can't update or delete a course you didn't create"
+      );
+      forbidden403.status = 403;
+      next(forbidden403);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
 // function to wrap async callbacks in routes and handle async errors
 function catchAsync(fn) {
   return (req, res, next) => {
@@ -53,4 +89,9 @@ function catchAsync(fn) {
   };
 }
 
-module.exports = { authenticateUser, catchAsync };
+module.exports = {
+  checkCourseExistance,
+  authenticateUser,
+  catchAsync,
+  verifyOwner,
+};
