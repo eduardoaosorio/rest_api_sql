@@ -10,6 +10,14 @@ router.get(
   "/courses",
   catchAsync(async (req, res, next) => {
     const allCourses = await Course.findAll({
+      attributes: [
+        "id",
+        "title",
+        "description",
+        "estimatedTime",
+        "materialsNeeded",
+        "userId",
+      ],
       include: [
         {
           model: User,
@@ -28,6 +36,14 @@ router.get(
   "/courses/:id",
   catchAsync(async (req, res, next) => {
     const course = await Course.findByPk(req.params.id, {
+      attributes: [
+        "id",
+        "title",
+        "description",
+        "estimatedTime",
+        "materialsNeeded",
+        "userId",
+      ],
       include: [
         {
           model: User,
