@@ -9,10 +9,6 @@ const db = require("./models/index");
 const userRoutes = require("./routes/user");
 const courseRoutes = require("./routes/course");
 
-// variable to enable global error logging
-const enableGlobalErrorLogging =
-  process.env.ENABLE_GLOBAL_ERROR_LOGGING === "true";
-
 // create the Express app
 const app = express();
 
@@ -53,10 +49,6 @@ app.use((req, res) => {
 
 // setup a global error handler
 app.use((err, req, res, next) => {
-  if (enableGlobalErrorLogging) {
-    console.error(`Global error handler: ${JSON.stringify(err.stack)}`);
-  }
-
   res.status(err.status || 500).json({
     message: err.message,
     error: {},
