@@ -57,12 +57,12 @@ module.exports = (sequelize) => {
           notEmpty: {
             msg: "Please provide a password",
           },
-          is: {
-            // regex source: https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
-            args: [/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/],
-            msg:
-              "Password must have a minimum of 8 characters, at least 1 uppercase letter, 1 lowercase letter and 1 number",
-          },
+          // is: {
+          //   // regex source: https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
+          //   args: [/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/],
+          //   msg:
+          //     "Password must have a minimum of 8 characters, at least 1 uppercase letter, 1 lowercase letter and 1 number",
+          // },
         },
       },
     },
